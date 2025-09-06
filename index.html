@@ -1,13 +1,558 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="scroll-smooth">
   <head>
-    <meta charset="UTF-8" />
-    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>codingbolt web services</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CodingBolt Web Services — Web Development & Design</title>
+    <meta name="description" content="Full‑stack web development, UI/UX design, e‑commerce, performance optimization, and ongoing maintenance. Fast delivery, clean code, measurable results." />
+
+    <!-- Tailwind via CDN for a single-file setup (swap to CLI build for production) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: '#F2F7FF', 100: '#E6EFFF', 200: '#C7DBFF', 300: '#6BD0FF', 400: '#3AB8FF',
+                500: '#1EA1FF', 600: '#0E86E3', 700: '#0A66AF', 800: '#094E86', 900: '#083B65'
+              }
+            },
+            boxShadow: {
+              glow: '0 0 0 2px rgba(30,161,255,0.25), 0 10px 40px rgba(0,0,0,0.25)'
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Fonts (optional) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      html { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial, 'Apple Color Emoji', 'Segoe UI Emoji'; }
+      .noise { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 140 140"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity=".04"/></svg>'); }
+    </style>
+    <meta property="og:title" content="CodingBolt Web Services — Web Development" />
+    <meta property="og:description" content="Modern websites, apps, and storefronts that load fast and convert." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/og.png" />
+    <link rel="icon" href="/favicon.ico" />
   </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+
+  <body class="bg-slate-950 text-slate-100 selection:bg-brand-300/30">
+    <!-- Decorative background -->
+    <div aria-hidden="true" class="fixed inset-0 -z-10">
+      <div class="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-950 to-black"></div>
+      <div class="absolute inset-x-0 top-[-20%] h-[40rem] bg-[radial-gradient(ellipse_at_top,rgba(30,161,255,0.25),transparent_60%)] blur-2xl"></div>
+      <div class="absolute inset-0 noise"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-slate-950/60 border-b border-white/5">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <a href="#top" class="group inline-flex items-center gap-2">
+            <div class="h-8 w-8 rounded-lg bg-brand-500/20 ring-1 ring-inset ring-brand-300/30 grid place-items-center group-hover:shadow-glow transition">
+              <!-- Bolt icon -->
+              <svg viewBox="0 0 24 24" class="h-5 w-5 text-brand-300"><path fill="currentColor" d="M13 2L3 14h6l-2 8 10-12h-6z"/></svg>
+            </div>
+            <span class="text-sm font-semibold tracking-wide text-white/90">CodingBolt Web Services</span>
+          </a>
+
+          <nav class="hidden md:flex items-center gap-8 text-sm text-slate-300">
+            <a href="#services" class="hover:text-white">Services</a>
+            <a href="#process" class="hover:text-white">Process</a>
+            <a href="#work" class="hover:text-white">Work</a>
+            <a href="#pricing" class="hover:text-white">Pricing</a>
+            <a href="#about" class="hover:text-white">About</a>
+            <a href="#contact" class="hover:text-white">Contact</a>
+          </nav>
+
+          <div class="hidden md:flex items-center gap-3">
+            <a href="#contact" class="inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-2 text-sm font-semibold hover:bg-white/15 ring-1 ring-white/15">
+              <span>Get a quote</span>
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+
+          <button id="menuBtn" class="md:hidden inline-flex items-center justify-center rounded-lg p-2 text-slate-300 hover:bg-white/10" aria-controls="mobileNav" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <svg id="menuIcon" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            <svg id="closeIcon" class="h-6 w-6 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Nav -->
+      <div id="mobileNav" class="md:hidden hidden border-t border-white/5">
+        <div class="space-y-1 px-4 pb-4 pt-2 text-sm text-slate-200">
+          <a href="#services" class="block rounded-lg px-3 py-2 hover:bg-white/10">Services</a>
+          <a href="#process" class="block rounded-lg px-3 py-2 hover:bg-white/10">Process</a>
+          <a href="#work" class="block rounded-lg px-3 py-2 hover:bg-white/10">Work</a>
+          <a href="#pricing" class="block rounded-lg px-3 py-2 hover:bg-white/10">Pricing</a>
+          <a href="#about" class="block rounded-lg px-3 py-2 hover:bg-white/10">About</a>
+          <a href="#contact" class="block rounded-lg px-3 py-2 hover:bg-white/10">Contact</a>
+          <a href="#contact" class="mt-2 inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-2 font-semibold hover:bg-white/15 ring-1 ring-white/15">Get a quote</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section id="top" class="relative">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+        <div class="grid items-center gap-12 lg:grid-cols-2">
+          <div>
+            <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">
+              <span class="h-2 w-2 rounded-full bg-emerald-400"></span> Launch ready in as little as 2 weeks
+            </div>
+            <h1 class="mt-4 text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
+              Websites & Apps that Convert
+            </h1>
+            <p class="mt-4 max-w-2xl text-slate-300">
+              We design and build modern, fast, accessible websites and full‑stack apps. From landing pages to e‑commerce to custom dashboards—built with clean code and measurable results.
+            </p>
+            <div class="mt-8 flex flex-col sm:flex-row gap-3">
+              <a href="#contact" class="inline-flex items-center justify-center rounded-xl bg-brand-500 px-5 py-3 font-semibold text-white shadow-glow hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300">
+                Start a project
+                <svg class="ml-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href="#services" class="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-5 py-3 font-semibold text-white hover:bg-white/10">
+                View services
+              </a>
+            </div>
+            <div class="mt-10 grid grid-cols-2 gap-6 text-sm text-slate-400 sm:grid-cols-4">
+              <div><div class="text-2xl font-bold text-white">150+</div> projects shipped</div>
+              <div><div class="text-2xl font-bold text-white"><span class="align-top text-base">≤</span>1s</div> Largest Contentful Paint</div>
+              <div><div class="text-2xl font-bold text-white">99.9%</div> uptime targets</div>
+              <div><div class="text-2xl font-bold text-white">4.9/5</div> client rating</div>
+            </div>
+          </div>
+
+          <!-- Visual -->
+          <div class="relative">
+            <div class="absolute -inset-4 -z-10 rounded-3xl bg-gradient-to-br from-brand-600/30 to-emerald-500/20 blur-2xl"></div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-2xl">
+              <div class="rounded-xl border border-white/10 bg-slate-900 p-4">
+                <div class="flex items-center justify-between text-xs text-slate-400">
+                  <span>Performance snapshot</span>
+                  <span>example site</span>
+                </div>
+                <div class="mt-3 space-y-2 text-sm">
+                  <div class="flex items-center justify-between rounded-lg bg-black/30 p-3">
+                    <span class="inline-flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-400"></span>Pagespeed</span>
+                    <span class="font-mono">99</span>
+                  </div>
+                  <div class="flex items-center justify-between rounded-lg bg-black/30 p-3">
+                    <span class="inline-flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-yellow-400"></span>SEO</span>
+                    <span class="font-mono">98</span>
+                  </div>
+                  <div class="flex items-center justify-between rounded-lg bg-black/30 p-3">
+                    <span class="inline-flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-red-400"></span>Accessibility</span>
+                    <span class="font-mono">100</span>
+                  </div>
+                  <div class="flex items-center justify-between rounded-lg bg-black/30 p-3">
+                    <span class="inline-flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-sky-400"></span>Best Practices</span>
+                    <span class="font-mono">100</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust badges -->
+    <section class="py-6">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 gap-6 opacity-70 sm:grid-cols-4 lg:grid-cols-6">
+          <div class="h-10 rounded-md bg-white/5 ring-1 ring-white/10 grid place-items-center text-xs">Next.js</div>
+          <div class="h-10 rounded-md bg-white/5 ring-1 ring-white/10 grid place-items-center text-xs">React</div>
+          <div class="h-10 rounded-md bg-white/5 ring-1 ring-white/10 grid place-items-center text-xs">Tailwind</div>
+          <div class="h-10 rounded-md bg-white/5 ring-1 ring-white/10 grid place-items-center text-xs">Shopify</div>
+          <div class="h-10 rounded-md bg-white/5 ring-1 ring-white/10 grid place-items-center text-xs">WordPress</div>
+          <div class="h-10 rounded-md bg-white/5 ring-1 ring-white/10 grid place-items-center text-xs">Node / API</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">What we build</h2>
+          <p class="mt-3 text-slate-300">Design‑first development with scalable, maintainable code. Clear scope, clear process, clear outcomes.</p>
+        </div>
+
+        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <!-- Card -->
+          <article class="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div class="flex items-center gap-3">
+              <span class="grid h-10 w-10 place-items-center rounded-xl bg-brand-500/15 ring-1 ring-brand-400/20">
+                <!-- Browser icon -->
+                <svg class="h-5 w-5 text-brand-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8h18"/></svg>
+              </span>
+              <h3 class="text-lg font-semibold">Custom Websites</h3>
+            </div>
+            <p class="mt-4 text-sm text-slate-300">Marketing sites, blogs, docs, portals—fast, accessible, and SEO‑friendly.</p>
+          </article>
+
+          <article class="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div class="flex items-center gap-3">
+              <span class="grid h-10 w-10 place-items-center rounded-xl bg-brand-500/15 ring-1 ring-brand-400/20">
+                <!-- Cart icon -->
+                <svg class="h-5 w-5 text-brand-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l.89 5.34a2 2 0 0 0 2 1.66h9.72a2 2 0 0 0 2-1.6l1.38-6.4H6"/></svg>
+              </span>
+              <h3 class="text-lg font-semibold">E‑commerce</h3>
+            </div>
+            <p class="mt-4 text-sm text-slate-300">Shopify/Headless storefronts, subscriptions, payments, and analytics.</p>
+          </article>
+
+          <article class="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div class="flex items-center gap-3">
+              <span class="grid h-10 w-10 place-items-center rounded-xl bg-brand-500/15 ring-1 ring-brand-400/20">
+                <!-- App icon -->
+                <svg class="h-5 w-5 text-brand-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+              </span>
+              <h3 class="text-lg font-semibold">Web Apps & Dashboards</h3>
+            </div>
+            <p class="mt-4 text-sm text-slate-300">Next.js/React frontends, Node APIs, auth, roles, and real‑time UIs.</p>
+          </article>
+
+          <article class="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div class="flex items-center gap-3">
+              <span class="grid h-10 w-10 place-items-center rounded-xl bg-brand-500/15 ring-1 ring-brand-400/20">
+                <!-- Sparkles icon -->
+                <svg class="h-5 w-5 text-brand-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5L20 10l-5 2.5L12 20l-2.5-7.5L4 10l5.5-2z"/></svg>
+              </span>
+              <h3 class="text-lg font-semibold">UI/UX Design</h3>
+            </div>
+            <p class="mt-4 text-sm text-slate-300">Wireframes to polished design systems. Design tokens & components.</p>
+          </article>
+
+          <article class="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div class="flex items-center gap-3">
+              <span class="grid h-10 w-10 place-items-center rounded-xl bg-brand-500/15 ring-1 ring-brand-400/20">
+                <!-- Gauge icon -->
+                <svg class="h-5 w-5 text-brand-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14l4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+              </span>
+              <h3 class="text-lg font-semibold">Performance & SEO</h3>
+            </div>
+            <p class="mt-4 text-sm text-slate-300">Core Web Vitals, caching, image strategy, structured data, and audits.</p>
+          </article>
+
+          <article class="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div class="flex items-center gap-3">
+              <span class="grid h-10 w-10 place-items-center rounded-xl bg-brand-500/15 ring-1 ring-brand-400/20">
+                <!-- Wrench icon -->
+                <svg class="h-5 w-5 text-brand-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 1 0 3 3L22 3l-3-3-4.3 6.3z"/><path d="M2 22l7-7"/></svg>
+              </span>
+              <h3 class="text-lg font-semibold">Maintenance & Support</h3>
+            </div>
+            <p class="mt-4 text-sm text-slate-300">Updates, backups, monitoring, incident response, and retainer dev.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section id="process" class="py-20 border-y border-white/5 bg-white/5">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">How we work</h2>
+          <p class="mt-3 text-slate-300">Transparent, collaborative, and delivery‑focused—not just hand‑offs.</p>
+        </div>
+
+        <ol class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+          <li class="rounded-2xl border border-white/10 bg-slate-900 p-6">
+            <div class="text-sm text-slate-400">Step 1</div>
+            <h3 class="mt-1 font-semibold">Discovery</h3>
+            <p class="mt-2 text-sm text-slate-300">Goals, audience, brand, and success metrics.</p>
+          </li>
+          <li class="rounded-2xl border border-white/10 bg-slate-900 p-6">
+            <div class="text-sm text-slate-400">Step 2</div>
+            <h3 class="mt-1 font-semibold">Design</h3>
+            <p class="mt-2 text-sm text-slate-300">Wireframes, UI kit, responsive flows.</p>
+          </li>
+          <li class="rounded-2xl border border-white/10 bg-slate-900 p-6">
+            <div class="text-sm text-slate-400">Step 3</div>
+            <h3 class="mt-1 font-semibold">Build</h3>
+            <p class="mt-2 text-sm text-slate-300">Component‑driven dev, CI/CD, QA.</p>
+          </li>
+          <li class="rounded-2xl border border-white/10 bg-slate-900 p-6">
+            <div class="text-sm text-slate-400">Step 4</div>
+            <h3 class="mt-1 font-semibold">Launch</h3>
+            <p class="mt-2 text-sm text-slate-300">Perf, SEO, analytics, and handover.</p>
+          </li>
+          <li class="rounded-2xl border border-white/10 bg-slate-900 p-6">
+            <div class="text-sm text-slate-400">Step 5</div>
+            <h3 class="mt-1 font-semibold">Grow</h3>
+            <p class="mt-2 text-sm text-slate-300">A/B tests, new features, and support.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Work / Portfolio -->
+    <section id="work" class="py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Selected work</h2>
+          <p class="mt-3 text-slate-300">A few recent builds—ask for a deeper portfolio on request.</p>
+        </div>
+
+        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <!-- Project card -->
+          <article class="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
+            <div class="aspect-video bg-gradient-to-br from-brand-600/30 to-emerald-500/20"></div>
+            <div class="p-5">
+              <h3 class="font-semibold">SaaS Marketing Site</h3>
+              <p class="mt-2 text-sm text-slate-300">Next.js, MDX blog, HubSpot forms, 100/100 Lighthouse.</p>
+            </div>
+          </article>
+          <article class="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
+            <div class="aspect-video bg-gradient-to-br from-brand-600/30 to-purple-500/20"></div>
+            <div class="p-5">
+              <h3 class="font-semibold">Headless Shopify Store</h3>
+              <p class="mt-2 text-sm text-slate-300">Hydrogen storefront, Stripe, subscriptions, CRM sync.</p>
+            </div>
+          </article>
+          <article class="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
+            <div class="aspect-video bg-gradient-to-br from-brand-600/30 to-rose-500/20"></div>
+            <div class="p-5">
+              <h3 class="font-semibold">Analytics Dashboard</h3>
+              <p class="mt-2 text-sm text-slate-300">Role‑based access, charts, real‑time events, exports.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Transparent pricing</h2>
+          <p class="mt-3 text-slate-300">Pick a starting point. We fine‑tune scope and effort during discovery.</p>
+        </div>
+
+        <div class="mt-12 grid gap-6 lg:grid-cols-3">
+          <!-- Starter -->
+          <div class="relative rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div class="absolute -top-3 left-6 rounded-full border border-white/10 bg-slate-900 px-3 py-1 text-xs text-slate-300">Great for startups</div>
+            <h3 class="text-lg font-semibold">Starter Site</h3>
+            <div class="mt-2 text-3xl font-extrabold text-white">$1,900</div>
+            <p class="text-sm text-slate-400">typical engagement</p>
+            <ul class="mt-6 space-y-2 text-sm text-slate-300">
+              <li class="flex gap-2"><span class="text-emerald-400">✓</span> Up to 5 pages</li>
+              <li class="flex gap-2"><span class="text-emerald-400">✓</span> Responsive design</li>
+              <li class="flex gap-2"><span class="text-emerald-400">✓</span> Basic SEO setup</li>
+              <li class="flex gap-2"><span class="text-emerald-400">✓</span> Contact form</li>
+              <li class="flex gap-2"><span class="text-emerald-400">✓</span> 2 weeks support</li>
+            </ul>
+            <a href="#contact" class="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-white/10 px-4 py-2 font-semibold hover:bg-white/15">Choose Starter</a>
+          </div>
+
+          <!-- Growth -->
+          <div class="relative rounded-2xl border border-brand-400/30 bg-gradient-to-b from-brand-500/15 to-white/5 p-6 shadow-glow">
+            <div class="absolute -top-3 left-6 rounded-full border border-white/10 bg-brand-600/50 px-3 py-1 text-xs text-white">Most popular</div>
+            <h3 class="text-lg font-semibold">Growth</h3>
+            <div class="mt-2 text-3xl font-extrabold text-white">$4,900</div>
+            <p class="text-sm text-slate-300">typical engagement</p>
+            <ul class="mt-6 space-y-2 text-sm text-slate-200">
+              <li class="flex gap-2"><span class="text-emerald-400">✓</span> Up to 12 pages</li>
+              <li class="flex gap-2"><span class="text-emerald-400">✓</span> Blog/CMS integration</li>
+              <li class="flex gap-2"><span class="text-emerald-400">✓</span> Analytics & events</li>
+              <li class="flex gap-2"><span class="text-emerald-400">✓</span> Performance & SEO pass</li>
+              <li class="flex gap-2"><span class="text-emerald-400">✓</span> 1 month support</li>
+            </ul>
+            <a href="#contact" class="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-brand-500 px-4 py-2 font-semibold text-white hover:bg-brand-600">Choose Growth</a>
+          </div>
+
+          <!-- Enterprise -->
+          <div class="relative rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div class="absolute -top-3 left-6 rounded-full border border-white/10 bg-slate-900 px-3 py-1 text-xs text-slate-300">Tailored to you</div>
+            <h3 class="text-lg font-semibold">Custom / Enterprise</h3>
+            <div class="mt-2 text-3xl font-extrabold text-white">Custom</div>
+            <p class="text-sm text-slate-400">contact us</p>
+            <ul class="mt-6 space-y-2 text-sm text-slate-300">
+              <li class="flex gap-2"><span class="text-emerald-400">✓</span> Web app development</li>
+              <li class="flex gap-2"><span class="text-emerald-400">✓</span> E‑commerce & subscriptions</li>
+              <li class="flex gap-2"><span class="text-emerald-400">✓</span> 3rd‑party integrations</li>
+              <li class="flex gap-2"><span class="text-emerald-400">✓</span> Design systems</li>
+              <li class="flex gap-2"><span class="text-emerald-400">✓</span> Ongoing retainers</li>
+            </ul>
+            <a href="#contact" class="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-white/10 px-4 py-2 font-semibold hover:bg-white/15">Talk to sales</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-20 border-t border-white/5">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid gap-12 lg:grid-cols-2">
+        <div>
+          <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Why teams choose CodingBolt</h2>
+          <ul class="mt-6 space-y-3 text-slate-300">
+            <li class="flex gap-3"><span class="text-emerald-400 mt-1">✓</span><span>Design‑to‑dev experts—pixel‑perfect and performant.</span></li>
+            <li class="flex gap-3"><span class="text-emerald-400 mt-1">✓</span><span>Component libraries & docs that your team can extend.</span></li>
+            <li class="flex gap-3"><span class="text-emerald-400 mt-1">✓</span><span>Business outcomes: conversions, signups, speed, SEO.</span></li>
+            <li class="flex gap-3"><span class="text-emerald-400 mt-1">✓</span><span>Fast iterations with clear comms and roadmaps.</span></li>
+          </ul>
+          <div class="mt-8 grid grid-cols-3 gap-4 text-center">
+            <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+              <div class="text-2xl font-bold text-white">8+</div>
+              <div class="text-xs text-slate-400">years avg. experience</div>
+            </div>
+            <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+              <div class="text-2xl font-bold text-white">120+</div>
+              <div class="text-xs text-slate-400">clients worldwide</div>
+            </div>
+            <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+              <div class="text-2xl font-bold text-white">0</div>
+              <div class="text-xs text-slate-400">missed deadlines</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <h3 class="text-lg font-semibold">Recent client feedback</h3>
+            <div class="mt-4 grid gap-4 sm:grid-cols-2">
+              <blockquote class="rounded-xl border border-white/10 bg-slate-900 p-4 text-sm text-slate-300">“Clean build, fast pages, and seamless handover.” <div class="mt-2 text-xs text-slate-400">— VP Growth, SaaS</div></blockquote>
+              <blockquote class="rounded-xl border border-white/10 bg-slate-900 p-4 text-sm text-slate-300">“Our new storefront doubled conversion rate.” <div class="mt-2 text-xs text-slate-400">— Founder, DTC</div></blockquote>
+              <blockquote class="rounded-xl border border-white/10 bg-slate-900 p-4 text-sm text-slate-300">“Dev who actually understands design.” <div class="mt-2 text-xs text-slate-400">— Head of Design, fintech</div></blockquote>
+              <blockquote class="rounded-xl border border-white/10 bg-slate-900 p-4 text-sm text-slate-300">“Ship speed + quality—rare combo.” <div class="mt-2 text-xs text-slate-400">— CTO, marketplace</div></blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-20">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl text-center">FAQ</h2>
+        <div class="mt-8 space-y-3">
+          <details class="group rounded-xl border border-white/10 bg-white/5 p-4 open:bg-white/10">
+            <summary class="cursor-pointer list-none font-semibold">What deliverables do we get?</summary>
+            <div class="mt-2 text-sm text-slate-300">Design files (Figma), source code (Git), documentation, deployment guide, and training video as needed.</div>
+          </details>
+          <details class="group rounded-xl border border-white/10 bg-white/5 p-4 open:bg-white/10">
+            <summary class="cursor-pointer list-none font-semibold">Which tech stack do you use?</summary>
+            <div class="mt-2 text-sm text-slate-300">Commonly Next.js/React, Tailwind, Node/Express, Prisma, PostgreSQL, and headless CMS (Sanity/Contentful). We adapt to your stack.</div>
+          </details>
+          <details class="group rounded-xl border border-white/10 bg-white/5 p-4 open:bg-white/10">
+            <summary class="cursor-pointer list-none font-semibold">Do you provide ongoing support?</summary>
+            <div class="mt-2 text-sm text-slate-300">Yes—maintenance retainers include updates, monitoring, incident response, and a roadmap of improvements.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-20 border-t border-white/5 bg-white/5">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Tell us about your project</h2>
+          <p class="mt-3 text-slate-300">Drop your details and we’ll respond within one business day.</p>
+        </div>
+
+        <form class="mt-10 grid gap-4 rounded-2xl border border-white/10 bg-slate-900 p-6" onsubmit="handleSubmit(event)">
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label for="name" class="text-sm text-slate-300">Full name</label>
+              <input id="name" name="name" required class="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 outline-none focus:ring-2 focus:ring-brand-400" />
+            </div>
+            <div>
+              <label for="email" class="text-sm text-slate-300">Work email</label>
+              <input id="email" name="email" type="email" required class="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 outline-none focus:ring-2 focus:ring-brand-400" />
+            </div>
+            <div>
+              <label for="company" class="text-sm text-slate-300">Company</label>
+              <input id="company" name="company" class="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 outline-none focus:ring-2 focus:ring-brand-400" />
+            </div>
+            <div>
+              <label for="scope" class="text-sm text-slate-300">Project type</label>
+              <select id="scope" name="scope" class="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 outline-none focus:ring-2 focus:ring-brand-400">
+                <option>Marketing website</option>
+                <option>E‑commerce</option>
+                <option>Web app / dashboard</option>
+                <option>UI/UX design</option>
+                <option>Performance & SEO</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="message" class="text-sm text-slate-300">Notes</label>
+            <textarea id="message" name="message" rows="5" placeholder="Goals, timelines, budget, references…" class="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 outline-none focus:ring-2 focus:ring-brand-400"></textarea>
+          </div>
+          <div class="flex items-center justify-between gap-4">
+            <div class="text-xs text-slate-400">By submitting, you agree to our <a href="#" class="underline decoration-dotted">privacy policy</a>.</div>
+            <button type="submit" class="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-5 py-3 font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300">
+              Send request
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            </button>
+          </div>
+          <!--
+            TODO: Wire this form to your backend or a service like Formspree/HubSpot.
+          -->
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex items-center gap-3 text-sm text-slate-400">
+            <div class="h-8 w-8 rounded-lg bg-brand-500/20 ring-1 ring-inset ring-brand-300/30 grid place-items-center">
+              <svg viewBox="0 0 24 24" class="h-5 w-5 text-brand-300"><path fill="currentColor" d="M13 2L3 14h6l-2 8 10-12h-6z"/></svg>
+            </div>
+            <span>© <span id="year"></span> CodingBolt Web Services. All rights reserved.</span>
+          </div>
+          <div class="flex gap-4 text-sm text-slate-300">
+            <a href="#" class="hover:text-white">Privacy</a>
+            <a href="#" class="hover:text-white">Terms</a>
+            <a href="#top" class="hover:text-white">Back to top ↑</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile nav toggle
+      const menuBtn = document.getElementById('menuBtn');
+      const mobileNav = document.getElementById('mobileNav');
+      const menuIcon = document.getElementById('menuIcon');
+      const closeIcon = document.getElementById('closeIcon');
+      menuBtn?.addEventListener('click', () => {
+        const isOpen = mobileNav.classList.toggle('hidden') === false;
+        menuBtn.setAttribute('aria-expanded', String(isOpen));
+        menuIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
+      });
+
+      // Footer year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Fake submit (replace with real integration)
+      function handleSubmit(e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = Object.fromEntries(new FormData(form).entries());
+        // Basic front-end validation
+        if (!data.name || !data.email) {
+          alert('Please fill in your name and email.');
+          return;
+        }
+        alert('Thanks! We\'ll be in touch shortly.');
+        form.reset();
+      }
+      window.handleSubmit = handleSubmit;
+    </script>
   </body>
 </html>
+
