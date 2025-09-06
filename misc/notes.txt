@@ -1,0 +1,6 @@
+node                done
+express             done
+tailwind
+react
+java + springboot
+mngodb / sql
